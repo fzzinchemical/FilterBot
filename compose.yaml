@@ -1,0 +1,28 @@
+services:
+  ollama:
+    image: ollama/ollama:rocm
+    networks:
+      - my_network
+    volumes:
+      - ${OLLAMA_CONFIG_PATH}:/root/.ollama # shared ollama configuration
+    devices:
+      - /dev/kfd:/dev/kfd
+      - /dev/dri:/dev/dri
+    command: ["serve"] # Add the command to start ollama
+    ports:
+      - "11434:11434" # Open port for debugging and testing in case of issues
+  
+  pyllama_summary:
+    build: .
+    networks:
+      - my_network
+    depends_on:
+      - ollama
+    volumes:
+      - .:/app
+      - ${INPUT_FOLDER_PATH}:/shared_data
+      - ${OUTPUT_FOLDER_PATH}:/shared_data/summary
+    command: ["python", "main.py", "/shared_data/", "/shared_data/summary/"]
+
+networks:
+  my_network:
