@@ -29,7 +29,7 @@ This repository contains a Python script to summarize PDF documents using the Ol
 
     ```sh
     git clone https://github.com/fzzinchemichal/PDF-Dechonker.git
-    cd pdf-summarizer
+    cd PDF-Dechonker
     ```
 
 2. **Install Python dependencies:**
