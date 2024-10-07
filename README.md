@@ -28,7 +28,7 @@ This repository contains a Python script to summarize PDF documents using the Ol
 1. **Clone the repository:**
 
     ```sh
-    git clone https://github.com/yourusername/pdf-summarizer.git
+    git clone https://github.com/fzzinchemichal/PDF-Dechonker.git
     cd pdf-summarizer
     ```
 
