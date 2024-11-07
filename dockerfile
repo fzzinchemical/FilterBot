@@ -5,7 +5,7 @@ WORKDIR /app
 COPY requirements.txt requirements.txt
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
-RUN apt-get -y update; apt-get -y install curl
+RUN apt-get -y update
 
 COPY . .
 

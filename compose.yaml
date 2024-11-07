@@ -22,7 +22,10 @@ services:
       - .:/app
       - ${INPUT_FOLDER_PATH}:/shared_data
       - ${OUTPUT_FOLDER_PATH}:/shared_data/summary
+    environment:
+      - OLLAMA_MODEL=${OLLAMA_MODEL}
     command: ["python", "main.py", "/shared_data/", "/shared_data/summary/"]
+    privileged: true
 
 networks:
   my_network:
