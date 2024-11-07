@@ -1,6 +1,9 @@
 import requests
 import json
 import time
+import os
+
+OLLAMA_MODEL = os.getenv("OLLAMA_MODEL")
 
 class Message:
     def __init__(self, role, content):
@@ -44,7 +47,7 @@ def summarize_text_with_ollama(text):
 
     url = "http://ollama:11434/api/chat"
     messages = [Message(role="user", content=f"{text}")]
-    payload = OllamaAPIRequest(model="summa", messages=messages, stream=False)
+    payload = OllamaAPIRequest(model=OLLAMA_MODEL, messages=messages, stream=False)
 
     try:
         response = requests.post(
