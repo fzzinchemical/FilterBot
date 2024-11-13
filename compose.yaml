@@ -10,7 +10,8 @@ services:
       - /dev/dri:/dev/dri
     command: ["serve"] # Add the command to start ollama
     ports:
-      - "11434:11434" # Open port for debugging and testing in case of issues
+      - "11000:11434" # Open port for debugging and testing in case of issues
+    privileged: true
   
   pyllama_summary:
     build: .
@@ -24,8 +25,11 @@ services:
       - ${OUTPUT_FOLDER_PATH}:/shared_data/summary
     environment:
       - OLLAMA_MODEL=${OLLAMA_MODEL}
-    command: ["python", "main.py", "/shared_data/", "/shared_data/summary/"]
+      - OLLAMA_CHUNK_SIZE=${OLLAMA_CHUNK_SIZE}
+      - CHUNKING_CYCLES=${CHUNKING_CYCLES}
+    command: ["python", "-u", "main.py", "/shared_data/", "/shared_data/summary/"]
     privileged: true
 
 networks:
   my_network:
+    driver: bridge
