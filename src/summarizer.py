@@ -4,7 +4,7 @@ import time
 import os
 
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL")
-
+base_url = os.getenv("OLLAMA_API_URL")
 class Message:
     """
     A class to represent a message.
@@ -108,7 +108,7 @@ def summarize_text_with_ollama(text):
     connection = False
     while not connection:
         try:
-            url = "http://ollama:11434"
+            url = base_url
             if requests.get(url).status_code == 200:
                 connection = True
         except:
@@ -118,7 +118,7 @@ def summarize_text_with_ollama(text):
     if not text.strip():
         return "No text provided for summarization."
 
-    url = "http://ollama:11434/api/chat"
+    url = base_url + "/api/chat/"
     messages = [Message(role="user", content=f"{text}")]
     payload = OllamaAPIRequest(model=OLLAMA_MODEL, messages=messages, stream=False)
 
