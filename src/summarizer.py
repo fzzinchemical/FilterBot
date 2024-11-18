@@ -6,18 +6,82 @@ import os
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL")
 
 class Message:
+    """
+    A class to represent a message.
+
+    Attributes:
+    role (str): The role of the message sender.
+    content (str): The content of the message.
+    """
     def __init__(self, role, content):
+        """
+        Initialize a Message instance.
+
+        Parameters:
+        role (str): The role of the message sender.
+        content (str): The content of the message.
+        """
         self.role = role
         self.content = content
 
 class OllamaAPIRequest:
+    """
+    A class to represent an API request to Ollama.
+
+    Attributes:
+    model (str): The model to be used for the request.
+    messages (list): A list of Message instances.
+    stream (bool): Whether to stream the response.
+    """
     def __init__(self, model, messages, stream):
+        """
+        Initialize an OllamaAPIRequest instance.
+
+        Parameters:
+        model (str): The model to be used for the request.
+        messages (list): A list of Message instances.
+        stream (bool): Whether to stream the response.
+        """
         self.model = model
         self.messages = messages
         self.stream = stream
 
 class OllamaAPIResponse:
+    """
+    A class to represent an API response from Ollama.
+
+    Attributes:
+    model (str): The model used for the response.
+    created_at (str): The creation time of the response.
+    message (Message): The message content of the response.
+    done (bool): Whether the response is complete.
+    context (str): The context of the response.
+    total_duration (float): The total duration of the response.
+    load_duration (float): The load duration of the response.
+    prompt_eval_count (int): The prompt evaluation count.
+    prompt_eval_duration (float): The prompt evaluation duration.
+    eval_count (int): The evaluation count.
+    eval_duration (float): The evaluation duration.
+    done_reason (str): The reason the response is done.
+    """
     def __init__(self, model, created_at, message=None, done=None, context=None, total_duration=None, load_duration=None, prompt_eval_count=None, prompt_eval_duration=None, eval_count=None, eval_duration=None, done_reason=None):
+        """
+        Initialize an OllamaAPIResponse instance.
+
+        Parameters:
+        model (str): The model used for the response.
+        created_at (str): The creation time of the response.
+        message (dict or Message): The message content of the response.
+        done (bool): Whether the response is complete.
+        context (str): The context of the response.
+        total_duration (float): The total duration of the response.
+        load_duration (float): The load duration of the response.
+        prompt_eval_count (int): The prompt evaluation count.
+        prompt_eval_duration (float): The prompt evaluation duration.
+        eval_count (int): The evaluation count.
+        eval_duration (float): The evaluation duration.
+        done_reason (str): The reason the response is done.
+        """
         self.model = model
         self.created_at = created_at
         self.message = message if isinstance(message, Message) else Message(**message) if message else None
@@ -32,6 +96,15 @@ class OllamaAPIResponse:
         self.done_reason = done_reason
 
 def summarize_text_with_ollama(text):
+    """
+    Summarize the given text using the Ollama API.
+
+    Parameters:
+    text (str): The text to be summarized.
+
+    Returns:
+    str: The summarized text.
+    """
     connection = False
     while not connection:
         try:
@@ -88,9 +161,3 @@ def summarize_text_with_ollama(text):
         raise Exception(f"Failed to summarize text: {e}")
     except json.JSONDecodeError as e:
         raise Exception(f"Failed to decode JSON response: {e}")
-
-# Example usage
-if __name__ == "__main__":
-    text = "Your text here"
-    summary = summarize_text_with_ollama(text)
-    print(summary)
