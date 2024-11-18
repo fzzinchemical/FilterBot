@@ -24,6 +24,7 @@ services:
       - ${INPUT_FOLDER_PATH}:/shared_data
       - ${OUTPUT_FOLDER_PATH}:/shared_data/summary
     environment:
+      - OLLAMA_API_URL=${OLLAMA_API_URL}
       - OLLAMA_MODEL=${OLLAMA_MODEL}
       - OLLAMA_CHUNK_SIZE=${OLLAMA_CHUNK_SIZE}
       - CHUNKING_CYCLES=${CHUNKING_CYCLES}
