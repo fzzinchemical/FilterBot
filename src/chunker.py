@@ -1,5 +1,5 @@
 import os
-from alive_progress import alive_bar,alive_it
+from alive_progress import alive_bar
 
 from src.summarizer import summarize_text_with_ollama
 

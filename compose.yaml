@@ -22,13 +22,13 @@ services:
     volumes:
       - .:/app
       - ${INPUT_FOLDER_PATH}:/shared_data
-      - ${OUTPUT_FOLDER_PATH}:/shared_data/summary
+      - ${OUTPUT_FOLDER_PATH}:/shared_data_out
     environment:
       - OLLAMA_API_URL=${OLLAMA_API_URL}
       - OLLAMA_MODEL=${OLLAMA_MODEL}
       - OLLAMA_CHUNK_SIZE=${OLLAMA_CHUNK_SIZE}
       - CHUNKING_CYCLES=${CHUNKING_CYCLES}
-    command: ["python", "-u", "main.py", "/shared_data/", "/shared_data/summary/"]
+    command: ["python", "-u", "main.py", "/shared_data/", "/shared_data_out/"]
     privileged: true
 
 networks:
