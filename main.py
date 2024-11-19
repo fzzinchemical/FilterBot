@@ -3,8 +3,7 @@ import dotenv
 from src.pdf_reader import extract_text_from_pdf
 from src.summarizer import summarize_text_with_ollama
 from src.chunker import chunk_text, return_summarized_chunks, recursive_summarized_chunking
-from src.markdown_tool import concatenate_markdown_files
-from alive_progress import alive_bar
+from src.markdown_tool import concatenate_markdown_files, write_md
 
 dotenv.load_dotenv()
 
@@ -47,11 +46,7 @@ def main(input_path, output_path):
             print(f"Writing {final_summary.__sizeof__()} bytes to {md_filepath}\n")
             
             # Create a markdown file named Result.md
-            md_filepath = os.path.join(output_path, md_filename)
-            with open(md_filepath, "w") as md_file:
-                md_file.write(f"{final_summary}\n")
-                md_file.close()
-            print(f"Summary for {pdf_file} written to {md_filepath}\n")
+            write_md(md_filename, final_summary, output_path)
         else:
             print("Too many chunks. Skipping summarization...\n")
         
