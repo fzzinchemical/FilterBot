@@ -1,5 +1,4 @@
 import os
-from alive_progress import alive_bar
 
 from src.summarizer import summarize_text_with_ollama
 
@@ -17,7 +16,7 @@ def chunk_text(text, chunk_size=int(os.getenv("CHUNK_SIZE", 256))):
     words = text.split()
     for i in range(0, len(words), chunk_size):
         yield ' '.join(words[i:i + chunk_size])
-        
+
 def return_summarized_chunks(chunks):
     """
     Summarize each chunk of text.
@@ -29,11 +28,9 @@ def return_summarized_chunks(chunks):
     list: A list of summarized text chunks.
     """
     chunk_summaries = []
-    with alive_bar(len(chunks)) as bar:
-        for i, chunk in enumerate(chunks):
-            summary = summarize_text_with_ollama(chunk)
-            chunk_summaries.append(summary)
-            bar()
+    for i, chunk in enumerate(chunks):
+        summary = summarize_text_with_ollama(chunk)
+        chunk_summaries.append(summary)
     return chunk_summaries
 
 def recursive_summarized_chunking(cycles, chunks):

@@ -15,7 +15,7 @@ def concatenate_markdown_files(output_path: str) -> str:
     concatenated_content = ""
 
     for file in markdown_files:
-        with open(os.path.join(output_path, file), "r") as f:
+        with open(os.path.join(output_path, file), "r", encoding="utf-8") as f:
             concatenated_content += f.read()
 
     return concatenated_content
@@ -30,7 +30,7 @@ def write_md(title, text, output_dir):
     :param output_dir: The directory where the markdown file will be saved.
     :type output_dir: str
     """
-    
+
     md_path = output_dir + f"/{title}.md"
     with open(md_path, 'w', encoding="utf-16-le") as f:
         f.write(text)

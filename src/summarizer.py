@@ -64,7 +64,12 @@ class OllamaAPIResponse:
     eval_duration (float): The evaluation duration.
     done_reason (str): The reason the response is done.
     """
-    def __init__(self, model, created_at, message=None, done=None, context=None, total_duration=None, load_duration=None, prompt_eval_count=None, prompt_eval_duration=None, eval_count=None, eval_duration=None, done_reason=None):
+    def __init__(
+        self, model, created_at,
+        message=None, done=None, context=None,
+        total_duration=None, load_duration=None, prompt_eval_count=None,
+        prompt_eval_duration=None, eval_count=None, eval_duration=None,
+        done_reason=None):
         """
         Initialize an OllamaAPIResponse instance.
 
@@ -84,7 +89,9 @@ class OllamaAPIResponse:
         """
         self.model = model
         self.created_at = created_at
-        self.message = message if isinstance(message, Message) else Message(**message) if message else None
+        self.message = (message if isinstance(message, Message)
+                else Message(**message) if message
+                else None)
         self.done = done
         self.context = context
         self.total_duration = total_duration
@@ -109,7 +116,7 @@ def summarize_text_with_ollama(text):
     while not connection:
         try:
             url = base_url
-            if requests.get(url).status_code == 200:
+            if requests.get(url, timeout=10).status_code == 200:
                 connection = True
         except:
             connection = False
@@ -126,7 +133,8 @@ def summarize_text_with_ollama(text):
         response = requests.post(
             url,
             data=json.dumps(payload, default=lambda o: o.__dict__),
-            headers={"Content-Type": "application/json"}
+            headers={"Content-Type": "application/json"},
+            timeout=10
         )
         
         response.raise_for_status()
