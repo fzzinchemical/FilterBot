@@ -1,4 +1,7 @@
-from typing import List
+"""Markdown File Manipulation Library
+Returns:
+    String: Markdown File
+"""
 import os
 
 def concatenate_markdown_files(output_path: str) -> str:

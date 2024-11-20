@@ -1,8 +1,13 @@
+"""Function Library that chunks texts
+Returns:
+    _type_: Summarized Chunks
+Yields:
+    _type_: Chunks
+"""
 import os
-
 from src.summarizer import summarize_text_with_ollama
 
-def chunk_text(text, chunk_size=int(os.getenv("CHUNK_SIZE", 256))):
+def chunk_text(text, chunk_size=int(os.getenv("CHUNK_SIZE", "256"))):
     """
     Split the text into chunks of specified size.
 
@@ -28,7 +33,7 @@ def return_summarized_chunks(chunks):
     list: A list of summarized text chunks.
     """
     chunk_summaries = []
-    for i, chunk in enumerate(chunks):
+    for _, chunk in enumerate(chunks):
         summary = summarize_text_with_ollama(chunk)
         chunk_summaries.append(summary)
     return chunk_summaries
