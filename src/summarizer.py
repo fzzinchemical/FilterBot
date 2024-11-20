@@ -158,9 +158,7 @@ def summarize_text_with_ollama(text):
         response_data = response_dict.get('response', response_dict)
 
         # Ensure response_data is a dictionary
-        if isinstance(response_data, str) and response_data.strip() == "":
-            response_data = {}
-        elif isinstance(response_data, str):
+        if isinstance(response_data, str):
             response_data = json.loads(response_data)
 
         # Ensure all required fields are present
@@ -174,6 +172,7 @@ def summarize_text_with_ollama(text):
         # Check if the message attribute is not None
         if response.keys["message"] and hasattr(response.keys["message"], 'content'):
             return response.keys["message"].content
+        return "Structural error occured"
     except requests.exceptions.RequestException as e:
         print(f"Failed to summarize text {e}")
         return "Failed to summarize text: RequestException"
