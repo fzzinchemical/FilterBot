@@ -73,11 +73,7 @@ class OllamaAPIResponse:
     done_reason (str): The reason the response is done.
     """
     def __init__(
-        self, model, created_at,
-        message=None, done=None, context=None,
-        total_duration=None, load_duration=None, prompt_eval_count=None,
-        prompt_eval_duration=None, eval_count=None, eval_duration=None,
-        done_reason=None):
+        self, model, created_at, *args):
         """
         Initialize an OllamaAPIResponse instance.
 
@@ -95,20 +91,24 @@ class OllamaAPIResponse:
         eval_duration (float): The evaluation duration.
         done_reason (str): The reason the response is done.
         """
+        self.keys = {
+            "message" : None,
+            "done" : None,
+            "context" : None,
+            "total_duration" : None,
+            "load_duration" : None,
+            "prompt_eval_count" : None,
+            "prompt_eval_duration" : None,
+            "eval_count" : None,
+            "eval_duration" : None,
+            "done_reason" : None}
+
+        for arg in args:
+            if arg in self.keys:
+                self.keys[arg] = args[arg]
+
         self.model = model
         self.created_at = created_at
-        self.message = (message if isinstance(message, Message)
-                else Message(**message) if message
-                else None)
-        self.done = done
-        self.context = context
-        self.total_duration = total_duration
-        self.load_duration = load_duration
-        self.prompt_eval_count = prompt_eval_count
-        self.prompt_eval_duration = prompt_eval_duration
-        self.eval_count = eval_count
-        self.eval_duration = eval_duration
-        self.done_reason = done_reason
 
 def summarize_text_with_ollama(text):
     """
@@ -172,9 +172,11 @@ def summarize_text_with_ollama(text):
         response = OllamaAPIResponse(**response_data)
 
         # Check if the message attribute is not None
-        if response.message and hasattr(response.message, 'content'):
-            return response.message.content
+        if response.keys["message"] and hasattr(response.keys["message"], 'content'):
+            return response.keys["message"].content
     except requests.exceptions.RequestException as e:
         print(f"Failed to summarize text {e}")
+        return "Failed to summarize text: RequestException"
     except json.JSONDecodeError as e:
         print(f"Failed to decode JSON response: {e}")
+        return "Failed to summerize text: JSONDecodeError"
