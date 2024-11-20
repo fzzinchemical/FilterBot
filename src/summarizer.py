@@ -118,8 +118,11 @@ def summarize_text_with_ollama(text):
             url = base_url
             if requests.get(url, timeout=10).status_code == 200:
                 connection = True
-        except:
-            connection = False
+        except ConnectionError:
+            if ConnectionError is ConnectionRefusedError:
+                print("CONNECTION REFUSED")
+            else:
+                print("Retrying to Connect")
         time.sleep(1)
 
     if not text.strip():
@@ -136,28 +139,28 @@ def summarize_text_with_ollama(text):
             headers={"Content-Type": "application/json"},
             timeout=10
         )
-        
+
         response.raise_for_status()
         response_dict = response.json()
-        
+
         # Debugging: Print the response dictionary to understand its structure
         # print("Response Dictionary:", response_dict)
-        
+
         # Extract the relevant part of the response
         response_data = response_dict.get('response', response_dict)
-        
+
         # Ensure response_data is a dictionary
         if isinstance(response_data, str) and response_data.strip() == "":
             response_data = {}
         elif isinstance(response_data, str):
             response_data = json.loads(response_data)
-        
+
         # Ensure all required fields are present
         required_fields = ['model', 'created_at', 'message', 'done']
         for field in required_fields:
             if field not in response_data:
                 response_data[field] = None
-        
+
         response = OllamaAPIResponse(**response_data)
 
         # Check if the message attribute is not None
