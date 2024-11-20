@@ -174,9 +174,9 @@ def summarize_text_with_ollama(text):
         # Check if the message attribute is not None
         if response.message and hasattr(response.message, 'content'):
             return response.message.content
-        else:
-            raise Exception("Response message is missing or invalid.")
-    except requests.exceptions.RequestException as e:
-        raise Exception(f"Failed to summarize text: {e}")
+    except requests.exceptions.RequestException:
+        raise Exception(f"Failed to summarize text")
     except json.JSONDecodeError as e:
         raise Exception(f"Failed to decode JSON response: {e}")
+    except Exception as e:
+        raise Exception(f"An unknown Exception occurred: {e}")
