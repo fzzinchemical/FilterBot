@@ -1,9 +1,10 @@
+"""Main
+"""
 import os
 import dotenv
 from src.pdf_reader import extract_text_from_pdf
-from src.summarizer import summarize_text_with_ollama
-from src.chunker import chunk_text, return_summarized_chunks, recursive_summarized_chunking
-from src.markdown_tool import concatenate_markdown_files, write_md
+from src.chunker import chunk_text, recursive_summarized_chunking
+from src.markdown_tool import write_md
 
 dotenv.load_dotenv()
 

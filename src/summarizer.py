@@ -1,7 +1,15 @@
-import requests
-import json
-import time
+"""Ollama API
+Raises:
+    Exception: ConnectionError
+    Exception: ConnectionRefusedError
+    Exception: Exception
+Returns:
+    _type_: string
+"""
 import os
+import time
+import json
+import requests
 
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL")
 base_url = os.getenv("OLLAMA_API_URL")
