@@ -5,6 +5,7 @@ services:
       - my_network
     volumes:
       - ${OLLAMA_CONFIG_PATH}:/root/.ollama # shared ollama configuration
+      - /mnt/4TB_NVME/Ollama/Models:/root/.ollama/models # shared ollama models
     devices:
       - /dev/kfd:/dev/kfd
       - /dev/dri:/dev/dri
