@@ -135,7 +135,7 @@ def summarize_text_with_ollama(text):
     while not connection:
         try:
             url = base_url
-            if requests.get(url, timeout=10).status_code == 200:
+            if requests.get(url, timeout=60).status_code == 200:
                 connection = True
         except ConnectionError:
             if ConnectionError is ConnectionRefusedError:
@@ -157,7 +157,7 @@ def summarize_text_with_ollama(text):
             url,
             data=json.dumps(payload, default=lambda o: o.__dict__),
             headers={"Content-Type": "application/json"},
-            timeout=10
+            timeout=60
         )
 
         response.raise_for_status()

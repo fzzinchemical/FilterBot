@@ -38,6 +38,7 @@ def return_summarized_chunks(chunks):
         chunk_summaries.append(summary)
     return chunk_summaries
 
+
 def recursive_summarized_chunking(cycles, chunks):
     """
     Recursively summarize text chunks for a specified number of cycles.
@@ -51,6 +52,8 @@ def recursive_summarized_chunking(cycles, chunks):
     """
     while cycles > 0:
         chunk_summaries = return_summarized_chunks(chunks)
-        chunks = ["\n\n".join(chunk_summaries)]
-        cycles -= 1
-    return chunks
+        chunks_str = "\n\n".join(chunk_summaries)
+        if cycles > 0:
+            chunks = list(chunk_text(chunks_str))
+            cycles -= 1
+    return "\n\n".join(chunks)
