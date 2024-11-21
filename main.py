@@ -34,7 +34,7 @@ def main(input_path, output_path):
     os.makedirs(output_path, exist_ok=True)
     for pdf_file in pdf_files:
         print(f"Processing {pdf_file}\n")
-        md_filename = os.path.splitext(pdf_file)[0] + ".md"
+        md_filename = os.path.splitext(pdf_file)[0]
         md_filepath = os.path.join(output_path, md_filename)
         # Check if the markdown file already exists
         if os.path.exists(md_filepath):

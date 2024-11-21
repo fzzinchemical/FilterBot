@@ -13,6 +13,8 @@ import requests
 
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL")
 base_url = os.getenv("OLLAMA_API_URL")
+
+
 class Message:
     """
     A class to represent a message.
@@ -21,6 +23,7 @@ class Message:
     role (str): The role of the message sender.
     content (str): The content of the message.
     """
+
     def __init__(self, role, content):
         """
         Initialize a Message instance.
@@ -32,6 +35,7 @@ class Message:
         self.role = role
         self.content = content
 
+
 class OllamaAPIRequest:
     """
     A class to represent an API request to Ollama.
@@ -41,6 +45,7 @@ class OllamaAPIRequest:
     messages (list): A list of Message instances.
     stream (bool): Whether to stream the response.
     """
+
     def __init__(self, model, messages, stream):
         """
         Initialize an OllamaAPIRequest instance.
@@ -53,6 +58,7 @@ class OllamaAPIRequest:
         self.model = model
         self.messages = messages
         self.stream = stream
+
 
 class OllamaAPIResponse:
     """
@@ -72,8 +78,9 @@ class OllamaAPIResponse:
     eval_duration (float): The evaluation duration.
     done_reason (str): The reason the response is done.
     """
+
     def __init__(
-        self, model, created_at, **kwargs):
+            self, **kwargs):
         """
         Initialize an OllamaAPIResponse instance.
 
@@ -92,24 +99,26 @@ class OllamaAPIResponse:
         done_reason (str): The reason the response is done.
         """
 
-        self.model = model
-        self.created_at = created_at
-        
         default_values = {
-            "message" : None,
-            "keys" : None,
-            "done" : None,
-            "context" : None,
-            "total_duration" : None,
-            "load_duration" : None,
-            "prompt_eval_count" : None,
-            "prompt_eval_duration" : None,
-            "eval_count" : None,
-            "eval_duration" : None,
-            "done_reason" : None}
+            "model": None,
+            "created_at": None,
+            "message": None,
+            "keys": None,
+            "done": None,
+            "context": None,
+            "total_duration": None,
+            "load_duration": None,
+            "prompt_eval_count": None,
+            "prompt_eval_duration": None,
+            "eval_count": None,
+            "eval_duration": None,
+            "done_reason": None
+        }
 
         for key, value in default_values.items():
             setattr(self, key, kwargs.get(key, value))
+
+
 def summarize_text_with_ollama(text):
     """
     Summarize the given text using the Ollama API.
@@ -138,7 +147,8 @@ def summarize_text_with_ollama(text):
 
     url = base_url + "/api/chat/"
     messages = [Message(role="user", content=f"{text}")]
-    payload = OllamaAPIRequest(model=OLLAMA_MODEL, messages=messages, stream=False)
+    payload = OllamaAPIRequest(
+        model=OLLAMA_MODEL, messages=messages, stream=False)
 
     try:
         response = requests.post(
