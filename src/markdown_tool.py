@@ -35,6 +35,6 @@ def write_md(title, text, output_dir):
     """
 
     md_path = output_dir + f"/{title}.md"
-    with open(md_path, 'w', encoding="utf-16-le") as f:
+    with open(md_path, 'w', encoding="utf-8") as f:
         f.write(text)
         f.close()

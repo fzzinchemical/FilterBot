@@ -116,8 +116,10 @@ class OllamaAPIResponse:
         }
 
         for key, value in default_values.items():
-            setattr(self, key, kwargs.get(key, value))
-
+            if key == "message":
+                setattr(self, key, Message(**kwargs.get(key, value)))
+            else:
+                setattr(self, key, kwargs.get(key, value))
 
 def summarize_text_with_ollama(text):
     """
@@ -178,11 +180,9 @@ def summarize_text_with_ollama(text):
                 response_data[field] = None
 
         response = OllamaAPIResponse(**response_data)
-
-        # Check if the message attribute is not None
-        if response.message and hasattr(response.message, 'content'):
-            return response.message.content
-        return "Structural error occured"
+        # for key, value in response.__dict__.items():
+        #     print(f"{key}: {value}")
+        return response.message.content if response.message else "Failed to summarize text: No content found"
     except requests.exceptions.RequestException as e:
         print(f"Failed to summarize text {e}")
         return "Failed to summarize text: RequestException"

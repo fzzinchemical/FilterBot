@@ -9,3 +9,6 @@ SYSTEM "You are a summarization model for patents. Your task is to generate shor
     Focus on Main Points: Capture the key themes, facts, and arguments in a way that retains the core meaning of the original text.
 
 Provide summaries that are both accurate and efficient, allowing readers to quickly grasp the primary points of the original content."
+
+PARAMETER mirostat 2
+PARAMETER mirostat_tau 4.0

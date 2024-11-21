@@ -48,7 +48,7 @@ def main(input_path, output_path):
         # Chunk the text
         chunks = list(chunk_text(text))
         print(f"{pdf_file} chunked into {len(chunks)} parts")
-        if len(chunks) <= 100:
+        if len(chunks) <= 1000:
             chunk_summaries = recursive_summarized_chunking(
                 int(os.getenv("CHUNKING_CYCLES")), chunks)
             final_summary = "\n\n".join(chunk_summaries)
