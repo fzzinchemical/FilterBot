@@ -73,7 +73,7 @@ class OllamaAPIResponse:
     done_reason (str): The reason the response is done.
     """
     def __init__(
-        self, model, created_at, *args):
+        self, model, created_at, **kwargs):
         """
         Initialize an OllamaAPIResponse instance.
 
@@ -91,8 +91,13 @@ class OllamaAPIResponse:
         eval_duration (float): The evaluation duration.
         done_reason (str): The reason the response is done.
         """
-        self.keys = {
+
+        self.model = model
+        self.created_at = created_at
+        
+        default_values = {
             "message" : None,
+            "keys" : None,
             "done" : None,
             "context" : None,
             "total_duration" : None,
@@ -103,13 +108,8 @@ class OllamaAPIResponse:
             "eval_duration" : None,
             "done_reason" : None}
 
-        for arg in args:
-            if arg in self.keys:
-                self.keys[arg] = args[arg]
-
-        self.model = model
-        self.created_at = created_at
-
+        for key, value in default_values.items():
+            setattr(self, key, kwargs.get(key, value))
 def summarize_text_with_ollama(text):
     """
     Summarize the given text using the Ollama API.
@@ -170,8 +170,8 @@ def summarize_text_with_ollama(text):
         response = OllamaAPIResponse(**response_data)
 
         # Check if the message attribute is not None
-        if response.keys["message"] and hasattr(response.keys["message"], 'content'):
-            return response.keys["message"].content
+        if response.message and hasattr(response.message, 'content'):
+            return response.message.content
         return "Structural error occured"
     except requests.exceptions.RequestException as e:
         print(f"Failed to summarize text {e}")
