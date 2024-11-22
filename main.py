@@ -37,7 +37,7 @@ def main(input_path, output_path):
         md_filename = os.path.splitext(pdf_file)[0]
         md_filepath = os.path.join(output_path, md_filename)
         # Check if the markdown file already exists
-        if os.path.exists(md_filepath):
+        if os.path.exists(md_filepath + ".md"):
             print(f"Markdown file for {pdf_file} already exists. Skipping...\n")
             continue
 
@@ -51,7 +51,7 @@ def main(input_path, output_path):
         if len(chunks) <= 1000:
             chunk_summaries = recursive_summarized_chunking(
                 int(os.getenv("CHUNKING_CYCLES")), chunks)
-            final_summary = "\n\n".join(chunk_summaries)
+            final_summary = ''.join(chunk_summaries)
             print(f"Writing {final_summary.__sizeof__()} bytes to {md_filepath}\n")
 
             # Create a markdown file named Result.md

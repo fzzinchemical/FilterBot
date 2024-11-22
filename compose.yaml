@@ -10,8 +10,8 @@ services:
       - /dev/kfd:/dev/kfd
       - /dev/dri:/dev/dri
     command: ["serve"] # Add the command to start ollama
-    ports:
-      - "11000:11434" # Open port for debugging and testing in case of issues
+    # ports:
+    #   - "11000:11434" # Open port for debugging and testing in case of issues
     privileged: true
   
   pyllama_summary:

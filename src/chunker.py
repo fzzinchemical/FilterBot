@@ -5,7 +5,11 @@ Yields:
     _type_: Chunks
 """
 import os
+import dotenv
 from src.summarizer import summarize_text_with_ollama
+
+dotenv.load_dotenv()
+
 
 def chunk_text(text, chunk_size=int(os.getenv("CHUNK_SIZE", "256"))):
     """
@@ -52,8 +56,9 @@ def recursive_summarized_chunking(cycles, chunks):
     """
     while cycles > 0:
         chunk_summaries = return_summarized_chunks(chunks)
-        chunks_str = "\n\n".join(chunk_summaries)
+        chunks_str = ' '.join(chunk_summaries)
         if cycles > 0:
-            chunks = list(chunk_text(chunks_str))
+            chunks = list(chunk_text(chunks_str, int(os.getenv("OLLAMA_CHUNK_SIZE"))))
+            print(f"Chunked again into {len(chunks)} parts")
             cycles -= 1
-    return "\n\n".join(chunks)
+    return ' '.join(chunks)
