@@ -8,7 +8,7 @@ from src.markdown_tool import write_md
 
 dotenv.load_dotenv()
 
-def main(ollama_model, input_path, output_path):
+def main(input_path, output_path):
     """
     Main process class to run this project dockerized.
 
@@ -17,7 +17,7 @@ def main(ollama_model, input_path, output_path):
         input_path (str): file location of files to process
         output_path (str): file location for AI-Generated content
     """
-    # ollama_model = os.getenv("OLLAMA_MODEL")
+    ollama_model = os.getenv("OLLAMA_MODEL")
     print(f'Using Model: {ollama_model}')
     print(f"Reading PDFs from {input_path}\n")
 

@@ -8,5 +8,3 @@ RUN pip install -r requirements.txt
 RUN apt-get -y update
 
 COPY . .
-
-CMD ["python", "main.py"]
